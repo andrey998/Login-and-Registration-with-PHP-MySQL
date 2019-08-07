@@ -29,13 +29,18 @@
         $phone = $_POST['phone'];
         $address = $_POST['address'];
         $password = $_POST['password'];
-        // print_r(empty($form_errors)); exit;
-        if(checkDuplicateEntries("users", "email", $email, $db)){
-            $result_regist = flashMessage("email address is already being used! Please try another one");
+        $confirm_password = $_POST['password_confirm'];
+        if(checkDuplicateEntries("users", "phone", $phone, $db)){
+            $result_regist = flashMessage("Phone number is already registered! Please try another one");
         }
-
+        else if(checkDuplicateEntries("users", "email", $email, $db)){
+            $result_regist = flashMessage("Email address is already being used! Please try another one");
+        }
+        else if ($password != $confirm_password){
+            $result_regist = flashMessage("Those passwords didn't match. Try again.");
+        }
         //check if error array is empty, if yes process and insert data
-        else if(empty($form_errors_regist)){
+        else if(empty($form_errors_regist) && !isset($result_regist)){
             //Hash the pwd
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
             try{

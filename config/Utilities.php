@@ -34,7 +34,7 @@ function check_min_length($fields_to_check_length){
 
     foreach($fields_to_check_length as $name_of_field => $minimum_length_required){
         if(strlen(trim($_POST[$name_of_field])) < $minimum_length_required){
-            $form_errors[] = $name_of_field . " is too short, must be {$minimum_length_required} characters long";
+            $form_errors[] = $name_of_field . " must be at least {$minimum_length_required} characters long";
         }
     }
     return $form_errors;
@@ -85,6 +85,7 @@ function show_errors($form_errors_array){
 
 
 //Create error & success message function (flashMessage)
+
 function flashMessage($message, $passOrFail = "Fail"){
     if($passOrFail === "Pass") {
         $data = "<div class='alert alert-success' role='alert'>{$message}"; 
@@ -110,6 +111,24 @@ function checkDuplicateEntries($table, $column_name, $value, $db){
 
         //check for return row
         if($row = $statement->fetch()){
+            return true;
+        }
+        return false;
+    }
+    catch(PDOException $ex){
+        //Handle exception 
+    }
+}
+
+//Check for duplicate entries
+function checkDuplicateEntriesUpdate($table, $column_name, $value, $db, $id){
+    try {
+        $sqlQuery = "SELECT * FROM " .$table. " WHERE ".$column_name."=:$column_name AND id!=:$id";
+        $statement = $db->prepare($sqlQuery);
+        $statement->execute(array(":$column_name" => $value, ":$id" => $id));
+     
+        //check for return row
+        if($row = $statement->rowcount()>0){
             return true;
         }
         return false;

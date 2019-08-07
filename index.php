@@ -5,6 +5,8 @@
 	include_once'controllers/ParseLogin.php'; 
 	include_once'controllers/ParseRegister.php'; 
 	include_once'controllers/ParseProfile.php'; 
+	include_once'controllers/RecoverPassword.php';
+	include_once'controllers/ParseForgotPwd.php';
 ?>
 
 <html lang="en">
@@ -49,8 +51,8 @@
 		<script>!function(a){var e="https://s.go-mpulse.net/boomerang/",t="addEventListener";if("True"=="True")a.BOOMR_config=a.BOOMR_config||{},a.BOOMR_config.PageParams=a.BOOMR_config.PageParams||{},a.BOOMR_config.PageParams.pci=!0,e="https://s2.go-mpulse.net/boomerang/";if(function(){function n(e){a.BOOMR_onload=e&&e.timeStamp||(new Date).getTime()}if(!a.BOOMR||!a.BOOMR.version&&!a.BOOMR.snippetExecuted){a.BOOMR=a.BOOMR||{},a.BOOMR.snippetExecuted=!0;var i,o,r,O=document.createElement("iframe");if(a[t])a[t]("load",n,!1);else if(a.attachEvent)a.attachEvent("onload",n);O.src="javascript:void(0)",O.title="",O.role="presentation",(O.frameElement||O).style.cssText="width:0;height:0;border:0;display:none;",r=document.getElementsByTagName("script")[0],r.parentNode.insertBefore(O,r);try{o=O.contentWindow.document}catch(_){i=document.domain,O.src="javascript:var d=document.open();d.domain='"+i+"';void(0);",o=O.contentWindow.document}o.open()._l=function(){var a=this.createElement("script");if(i)this.domain=i;a.id="boomr-if-as",a.src=e+"MWYX8-KKS5M-SAA9V-BAMSY-SF8MR",BOOMR_lstart=(new Date).getTime(),this.body.appendChild(a)},o.write("<bo"+'dy onload="document._l();">'),o.close()}}(),"".length>0)if(a&&"performance"in a&&a.performance&&"function"==typeof a.performance.setResourceTimingBufferSize)a.performance.setResourceTimingBufferSize();!function(){if(BOOMR=a.BOOMR||{},BOOMR.plugins=BOOMR.plugins||{},!BOOMR.plugins.AK){var e=""=="true"?1:0,t="",n="furqt5ixiczowxj2jnpq-f-851e7ff3f-clientnsv4-s.akamaihd.net",i={"ak.v":22,"ak.cp":"750265","ak.ai":parseInt("485971",10),"ak.ol":"0","ak.cr":1,"ak.ipv":4,"ak.proto":"","ak.rid":"4ee43162","ak.r":34194,"ak.a2":e,"ak.m":"a","ak.n":"essl","ak.bpcip":"45.35.9.0","ak.cport":16111,"ak.gh":"23.36.15.214","ak.quicv":"","ak.tlsv":"tls1.2","ak.0rtt":"","ak.csrc":"-","ak.acc":"reno","ak.t":"1564101471"};if(""!==t)i["ak.ruds"]=t;var o={i:!1,av:function(e){var t="http.initiator";if(e&&(!e[t]||"spa_hard"===e[t]))i["ak.feo"]=void 0!==a.aFeoApplied?1:0,BOOMR.addVar(i)},rv:function(){var a=["ak.bpcip","ak.cport","ak.cr","ak.csrc","ak.gh","ak.ipv","ak.m/index.html","ak.n","ak.ol","ak.proto","ak.quicv","ak.tlsv","ak.0rtt","ak.r","ak.acc","ak.t"];BOOMR.removeVar(a)}};BOOMR.plugins.AK={akVars:i,akDNSPreFetchDomain:n,init:function(){if(!o.i){var a=BOOMR.subscribe;a("before_beacon",o.av,null,null),a("onbeacon",o.rv,null,null),o.i=!0}return this},is_complete:function(){return!0}}}}()}(window);
 		</script>
 		</head>
-		<body  lass="page-home">
-						<div class="page-inner">
+		<body class="page-home">
+			<div class="page-inner">
 					<header class="login-header">
 						<label class="icon-mobile-menu mobile-menu-icon-wrapper" for="mobile-menu-state"></label>
 						<input type="checkbox" id="mobile-menu-state" style="visibility: hidden" />
@@ -426,7 +428,25 @@
 					</ul>
 
 					<div id="cd-login"> <!-- log in form -->
-						<form class="cd-form" action="" method="POST" name="login-form">					
+						<form class="cd-form" action="" method="POST" name="login-form">	
+							<?php
+								// echo flashMessage('Invalid username or password!');
+								// echo ("<script>showModal()</script>");							
+							?>
+							<?php if(isset($result_login)){
+								echo ("<script>
+								$('.cd-user-modal').addClass('is-visible');
+								$('.cd-user-modal').find('#cd-login').addClass('is-selected');
+								$('.cd-user-modal').find('#cd-signup').removeClass('is-selected');
+								$('.cd-user-modal').find('#cd-reset-password').removeClass('is-selected');
+								$('.cd-switcher').children('li').eq(0).children('a').addClass('selected');
+								$('.cd-switcher').children('li').eq(1).children('a').removeClass('selected');
+								</script>");	
+								echo ($result_login);
+							} ?>
+							<?php if(!empty($form_errors_login)){
+								echo show_errors($form_errors_login);
+							} ?>				
 							<p class="fieldset">
 								<label class="image-replace cd-email" for="signin-email">E-mail</label>
 								<input class="full-width has-padding has-border" id="signin-email" type="email" placeholder="E-mail" name="username">
@@ -435,8 +455,8 @@
 
 							<p class="fieldset">
 								<label class="image-replace cd-password" for="signin-password">Password</label>
-								<input class="full-width has-padding has-border" id="signin-password" type="text"  placeholder="Password" name="password">
-								<a href="#0" class="hide-password">Hide</a>
+								<input class="full-width has-padding has-border" id="signin-password" type="password"  placeholder="Password" name="password">
+								<a href="#0" class="hide-password">Show</a>
 								<span class="cd-error-message">Error message here!</span>
 							</p>
 
@@ -448,6 +468,9 @@
 							<p class="fieldset">							
 								<input name="loginBtn"  class="full-width" type="submit" value="Login">
 							</p>
+							<?php if(isset($result_login)){									
+								echo ("</div>");
+							} ?>
 						</form>
 						
 						<p class="cd-form-bottom-message"><a href="#0">Forgot your password?</a></p>
@@ -457,7 +480,15 @@
 					<div id="cd-signup"> <!-- sign up form -->
 						<form class="cd-form" action="" method="POST" name="signup-form">	
 						<?php if(isset($result_regist)){
-                            echo $result_regist;
+							echo ("<script>
+							$('.cd-user-modal').addClass('is-visible');
+							$('.cd-user-modal').find('#cd-signup').addClass('is-selected');
+							$('.cd-user-modal').find('#cd-login').removeClass('is-selected');
+							$('.cd-user-modal').find('#cd-reset-password').removeClass('is-selected');
+							$('.cd-switcher').children('li').eq(0).children('a').removeClass('selected');
+							$('.cd-switcher').children('li').eq(1).children('a').addClass('selected');
+							</script>");	
+							echo ($result_regist);
                         } ?>
                         <?php if(!empty($form_errors_regist)){
                             echo show_errors($form_errors_regist);
@@ -497,10 +528,20 @@
 							</p>
 
 							<p class="fieldset">
-								<label class="image-replace cd-password" for="signup-password">Password</label>
-								<input class="full-width has-padding has-border" id="signup-password" type="text"  placeholder="Password" name="password">
-								<a href="#0" class="hide-password">Hide</a>
-								<span class="cd-error-message">Error message here!</span>
+								<div class="row">
+									<div class="col-md-6">
+										<label class="image-replace cd-password" for="signup-password">Password</label>
+										<input class="full-width has-padding has-border" id="signup-password" type="password"  placeholder="Password" name="password">
+										<!-- <a href="#0" class="hide-password">Hide</a> -->
+										<span class="cd-error-message">Error message here!</span>
+									</div>
+									<div class="col-md-6">
+										<label class="image-replace cd-password" for="signup-password">Confirm Password</label>
+										<input class="full-width has-padding has-border" id="signup-confirmpassword" type="password"  placeholder="Confirm Password" name="password_confirm">
+										<!-- <a href="#0" class="hide-password">Hide</a> -->
+										<span class="cd-error-message">Error message here!</span>
+									</div>
+								</div>								
 							</p>
 
 							<!-- <p class="fieldset">
@@ -511,6 +552,9 @@
 							<p class="fieldset">						
 								<input class="full-width has-padding" type="submit" name="registerBtn" value="Register">
 							</p>
+							<?php if(isset($result_regist)){
+								echo ("</div>");
+							} ?>
 						</form>
 
 						<!-- <a href="#0" class="cd-close-form">Close</a> -->
@@ -519,96 +563,183 @@
 					<div id="cd-reset-password"> <!-- reset password form -->
 						<p class="cd-form-message">Lost your password? Please enter your email address. You will receive a link to create a new password.</p>
 
-						<form class="cd-form">
+						<form class="cd-form" action="" method="POST" name="recovery-form">
+							<?php
+								if(isset($result_resetpwd)){
+									echo ("<script>
+											$('.cd-user-modal').find('#cd-signup').removeClass('is-selected');
+											$('.cd-user-modal').find('#cd-login').removeClass('is-selected');
+											$('.cd-user-modal').find('#cd-reset-password').addClass('is-selected');			
+											</script>");	
+									echo ($result_resetpwd);
+								}
+							?>
 							<p class="fieldset">
 								<label class="image-replace cd-email" for="reset-email">E-mail</label>
-								<input class="full-width has-padding has-border" id="reset-email" type="email" placeholder="E-mail">
+								<input class="full-width has-padding has-border" id="reset-email" type="email" fplaceholder="E-mail" name="recovery_email">
 								<span class="cd-error-message">Error message here!</span>
 							</p>
 
 							<p class="fieldset">
-								<input class="full-width has-padding" type="submit" value="Reset password">
+								<input class="full-width has-padding" name="forgot-password" type="submit" value="Send">
 							</p>
 						</form>
 
 						<p class="cd-form-bottom-message"><a href="#0">Back to log-in</a></p>
 					</div> <!-- cd-reset-password -->
+
+					
+
 					<a href="#0" class="cd-close-form">Close</a>
 				</div> <!-- cd-user-modal-container -->
 			</div> <!-- cd-user-modal -->
+
 			<!-- profile modal -->
 			<div class="modal fade" id="profile-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 				<div class="modal-dialog" role="document">
 					<div class="modal-content">
-					<?php if(!isset($_SESSION['username'])) : ?>
-					<p class="lead">
-						Your not authorised to view this page <a href="login.php">Login</a> Not yet a member? <a href="index.php">Register</a>
-					</p>
-					<?php else : ?>
-						<div class="modal-header text-center">
-							<h4 class="modal-title w-100 font-weight-bold">Edit Your Profile</h4>							
+						<?php if(!isset($_SESSION['username'])) : ?>
+						<p class="lead">
+							Your not authorised to view this page <a href="index.php">Login</a> Not yet a member? <a href="index.php">Register</a>
+						</p>
+						<?php else : ?> <!--Edit Profile Form-->
+							<div class="modal-header text-center">
+								<h4 class="modal-title w-100 font-weight-bold">Edit Your Profile</h4>		
+								
+							</div>
+							<div class="modal-body mx-3">
+								<form class="cd-form" action="" method="POST" name="profile-form">		
+									<?php if(isset($result_profile)){
+										echo ("<script>$('.cd-profile').click();</script>");
+										echo ($result_profile);
+			                        } ?>
+			                        <?php if(!empty($form_errors)){
+			                            echo show_errors($form_errors);
+			                        } ?>
+									<?php if(isset($result_profile	)){
+										echo ("</div>");
+									} ?>
+									<p class="fieldset">			
+										<div class="row">
+											<div class="col-md-6">
+												<label class="image-replace cd-firstname" for="profile-firstname">First Name</label>
+												<input class="has-padding has-border" id="profile-firstname" type="text" placeholder="FirstName" name="firstname" value="<?php if(isset($firstname)) echo $firstname; ?>">
+												<span class="cd-error-message">Error message here!</span>
+											</div>
+											<div class="col-md-6">
+												<label class="image-replace cd-lastname" for="profile-lastname">Last Name</label>
+												<input class="has-padding has-border" id="profile-lastname" type="text" placeholder="LastName" name="lastname" value="<?php if(isset($lastname)) echo $lastname; ?>">
+												<span class="cd-error-message">Error message here!</span>
+											</div>
+										</div>
+									</p>
+									<p class="fieldset">			
+										<div class="row">
+											<div class="col-md-6">
+												<label class="image-replace cd-phone" for="profile-phone">Phone</label>
+												<input class="has-padding has-border" id="profile-phone" type="text" placeholder="Phone Number" name="phone"  value="<?php if(isset($phone)) echo $phone; ?>">
+												<span class="cd-error-message">Error message here!</span>
+											</div>
+											<div class="col-md-6">
+												<label class="image-replace cd-address" for="profile-address">Address</label>
+												<input class="has-padding has-border" id="profile-address" type="text" placeholder="Address" name="address" value="<?php if(isset($address)) echo $address; ?>">
+												<span class="cd-error-message">Error message here!</span>
+											</div>
+										</div>
+									</p>
+									<p class="fieldset">
+										<label class="image-replace cd-email" for="profile-email">E-mail</label>
+										<input class="full-width has-padding has-border" id="profile-email" type="email" placeholder="E-mail" name="email" value="<?php if(isset($email)) echo $email; ?>">
+										<span class="cd-error-message">Error message here!</span>
+									</p>
+									<p class="fieldset">
+										<input type="checkbox" id="accept-chpwd" name="chpwd">
+										<label for="accept-chpwd">Change Password</label>
+									</p>
+									<p class="fieldset">
+										<div class="row chpwd-set invisible">
+											<div class="col-md-6">
+												<label class="image-replace cd-password" for="profile-password">Password</label>
+												<input class="full-width has-padding has-border" id="profile-password" type="password"  placeholder="Password" name="password" value="<?php if(isset($password)) echo $password; ?>">
+												<!-- <a href="#0" class="hide-password">Hide</a> -->
+												<span class="cd-error-message">Error message here!</span>
+											</div>
+											<div class="col-md-6">
+											<label class="image-replace cd-password" for="profile-password">Confirm Password</label>
+												<input class="full-width has-padding has-border" id="profile-confirmpassword" type="password"  placeholder="Confirm Password" name="password-confirm" value="<?php if(isset($password)) echo $password; ?>">
+												<!-- <a href="#0" class="hide-password">Hide</a> -->
+												<span class="cd-error-message">Error message here!</span>
+											</div>
+										</div>		
+									</p>
+
+									<!-- <p class="fieldset">
+										<input type="checkbox" id="accept-terms">
+										<label for="accept-terms">I agree to the <a href="#0">Terms</a></label>
+									</p> -->
+
+									<p class="fieldset">						
+										<input type="hidden" name="hidden_id" value="<?php if(isset($id)) echo $id; ?>">
+										<input class="full-width has-padding" type="submit" name="updateProfileBtn" value="Update Changes">
+									</p>
+									<?php if(isset($chpwd) && $chpwd){
+										echo("<script>
+										$('#accept-chpwd').prop('checked', true);
+										$('.chpwd-set').removeClass('invisible');
+										</script>");
+									} ?>
+								</form>
+							</div>						
+						<?php endif; ?>
 						</div>
-						<div class="modal-body mx-3">
-						<form class="cd-form" action="" method="POST" name="profile-form">		
-							<p class="fieldset">			
-								<div class="row">
-									<div class="col-md-6">
-										<label class="image-replace cd-firstname" for="signup-firstname">First Name</label>
-										<input class="has-padding has-border" id="signup-firstname" type="text" placeholder="FirstName" name="firstname" value="<?php if(isset($firstname)) echo $firstname; ?>">
-										<span class="cd-error-message">Error message here!</span>
-									</div>
-									<div class="col-md-6">
-										<label class="image-replace cd-lastname" for="signup-lastname">Last Name</label>
-										<input class="has-padding has-border" id="signup-lastname" type="text" placeholder="LastName" name="lastname" value="<?php if(isset($lastname)) echo $lastname; ?>">
-										<span class="cd-error-message">Error message here!</span>
-									</div>
-								</div>
-							</p>
-							<p class="fieldset">			
-								<div class="row">
-									<div class="col-md-6">
-										<label class="image-replace cd-phone" for="signup-phone">Phone</label>
-										<input class="has-padding has-border" id="signup-phone" type="text" placeholder="Phone Number" name="phone"  value="<?php if(isset($phone)) echo $phone; ?>">
-										<span class="cd-error-message">Error message here!</span>
-									</div>
-									<div class="col-md-6">
-										<label class="image-replace cd-address" for="signup-address">Address</label>
-										<input class="has-padding has-border" id="signup-address" type="text" placeholder="Address" name="address" value="<?php if(isset($address)) echo $address; ?>">
-										<span class="cd-error-message">Error message here!</span>
-									</div>
-								</div>
-							</p>
-							<p class="fieldset">
-								<label class="image-replace cd-email" for="signup-email">E-mail</label>
-								<input class="full-width has-padding has-border" id="signup-email" type="email" placeholder="E-mail" name="email" value="<?php if(isset($email)) echo $email; ?>">
-								<span class="cd-error-message">Error message here!</span>
-							</p>
-
-							<p class="fieldset">
-								<label class="image-replace cd-password" for="signup-password">Password</label>
-								<input class="full-width has-padding has-border" id="signup-password" type="text"  placeholder="Password" name="password" value="<?php if(isset($password)) echo $password; ?>">
-								<a href="#0" class="hide-password">Hide</a>
-								<span class="cd-error-message">Error message here!</span>
-							</p>
-
-							<!-- <p class="fieldset">
-								<input type="checkbox" id="accept-terms">
-								<label for="accept-terms">I agree to the <a href="#0">Terms</a></label>
-							</p> -->
-
-							<p class="fieldset">						
-								<input type="hidden" name="hidden_id" value="<?php if(isset($id)) echo $id; ?>">
-								<input class="full-width has-padding" type="submit" name="updateProfileBtn" value="Update Changes">
-							</p>
-						</form>
-
-						</div>						
-								<?php endif; ?>
+					</div>
 				</div>
+			</div>
+			<!-- beginning update password modal -->
+			<div class="modal fade" id="updatepwd-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">						
+							<div class="modal-header text-center">
+								<h4 class="modal-title w-100 font-weight-bold">Reset Password</h4>										
+							</div>
+							<div class="modal-body mx-3">
+								<form class="cd-form" action="" method="POST" name="updatepwd-form">		
+									<?php if(isset($result_profile)){
+										// echo ("<script>$('.cd-profile').click();</script>");
+										echo ($result_profile);
+			                        } ?>
+			                        <?php if(!empty($form_errors)){
+			                            echo show_errors($form_errors);
+			                        } ?>
+									<?php if(isset($result_profile)){
+										echo ("</div>");
+									} ?>
+									<p class="fieldset">
+										<div class="row">
+											<div class="col-md-6">
+												<label class="image-replace cd-password" for="updatepwd-password">Password</label>
+												<input class="full-width has-padding has-border" id="updatepwd-password" type="password"  placeholder="Password" name="password">
+												<span class="cd-error-message">Error message here!</span>
+											</div>
+											<div class="col-md-6">
+												<label class="image-replace cd-password" for="updatepwdsignup-password">Confirm Password</label>
+												<input class="full-width has-padding has-border" id="updatepwd-confirmpassword" type="password"  placeholder="Confirm Password" name="password_confirm">
+												<span class="cd-error-message">Error message here!</span>
+											</div>
+										</div>								
+									</p>
+									<p class="fieldset">						
+										<input class="full-width has-padding" type="submit" name="updatePwdBtn" value="Reset">
+									</p>
+								</form>
+							</div>					
+					
+						</div>
+					</div>
 				</div>
-
-
-			
+			</div>
+			<!-- update password modal -->
+					
 			<footer class="page-footer" itemscope="" itemtype="http://schema.org/Organization">
 				<div class="page-frame">
 					<div class="footer-links-column1">
@@ -695,7 +826,7 @@
 					</div>
 				</div>
 			</footer>			
-			<script src="scripts/js/jquery/jquery.min.js" type="text/javascript"></script>
+			<!-- <script src="scripts/js/jquery/jquery.min.js" type="text/javascript"></script> -->
 			<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.js"></script>
 			<script type="text/javascript">
 				if (typeof applicationConfig == 'undefined') { var applicationConfig = {}; }
@@ -724,25 +855,72 @@
 						},
 						// Specify validation error messages
 						messages: {
-						password: {
-							required: "Please provide a password",
-							minlength: "Your password must be at least 5 characters long"
-						},
-						username: "Please enter a valid email address"
+							password: {
+								required: "Please provide a password",
+								minlength: "Your password must be at least 5 characters long"
+							},
+							username: "Please enter a valid email address"
 						},
 						// Make sure the form is submitted to the destination defined
 						// in the "action" attribute of the form when valid
+						submitHandler: function(form) {
+							form.submit();
+						}
+					});
+				
+					$("form[name='recovery-form']").validate({					
+						rules: {								
+							recovery_email: {
+								required: true,							
+								email: true
+							}						
+						},					
+						messages: {
+							recovery_email: {
+								required: "Please provide your email",
+								email: "Please enter a valid email address"
+							}
+						},					
+						submitHandler: function(form) {
+							form.submit();
+						}
+					});			
+					
+					$("form[name='updatepwd-form']").validate({
+						rules: {
+							password: {
+								required: true,
+								minlength: 6
+							},
+							password_confirm: {
+								required: true,
+								equalTo: "#updatepwd-password"
+							}
+						},
+						// Specify validation error messages
+						messages: {					
+							password: {
+								required: "Please provide a password",
+								minlength: "Your password must be at least 6 characters long"
+							},
+							password_confirm: {
+								required: "Please confirm the password",
+								equalTo: "Those passwords didn't match. Try again."
+							}
+						},
 						submitHandler: function(form) {
 							form.submit();
 						}
 					});
 					$("form[name='signup-form']").validate({
-						// Specify validation rules
 						rules: {
 						// The key name on the left side is the name attribute
 						// of an input field. Validation rules are defined
 						// on the right side
-						firstname: "required",
+						firstname: {
+							required: true,
+							minlength: 3
+						}, 
 						lastname: "required",
 						email: {
 							required: true,
@@ -755,17 +933,28 @@
 						},
 						password: {
 							required: true,
-							minlength: 5
+							minlength: 6
+						},
+						password_confirm: {
+							required: true,
+						    equalTo: "#signup-password"
 						}
 						},
 						// Specify validation error messages
 						messages: {
-						firstname: "Please enter your firstname",
+						firstname: {
+							required: "Please enter your firstname",
+							minlength: "Your firstname must be at least 3 characters long"
+						},
 						lastname: "Please enter your lastname",
 						phone: "Please enter your phone number",
 						password: {
 							required: "Please provide a password",
-							minlength: "Your password must be at least 5 characters long"
+							minlength: "Your password must be at least 6 characters long"
+						},
+						password_confirm: {
+							required: "Please confirm the password",
+							equalTo: "Those passwords didn't match. Try again."
 						},
 						email: "Please enter a valid email address"
 						},
@@ -775,43 +964,49 @@
 							form.submit();
 						}
 					});
-					$("form[name='profile-form']").validate({
-						// Specify validation rules
-						rules: {
-						// The key name on the left side is the name attribute
-						// of an input field. Validation rules are defined
-						// on the right side
-						firstname: "required",
-						lastname: "required",
-						email: {
-							required: true,
-							// Specify that email should be validated
-							// by the built-in "email" rule
-							email: true
-						},
-						phone: {
-							required: true							
-						},
-						password: {
-							required: true,
-							minlength: 5
-						}
-						},
-						// Specify validation error messages
-						messages: {
-						firstname: "Please enter your firstname",
-						lastname: "Please enter your lastname",
-						phone: "Please enter your phone number",
-						password: {
-							required: "Please provide a password",
-							minlength: "Your password must be at least 5 characters long"
-						},
-						email: "Please enter a valid email address"
-						},
-						// Make sure the form is submitted to the destination defined
-						// in the "action" attribute of the form when valid
-						submitHandler: function(form) {
-							form.submit();
+					var valrule = {
+								// Specify validation rules
+								rules: {
+									// The key name on the left side is the name attribute
+									// of an input field. Validation rules are defined
+									// on the right side
+									firstname: {
+										required: true,
+										minlength: 3
+									}, 
+									lastname: "required",
+									phone: "required",
+									email: {
+										required: true,
+										// Specify that email should be validated
+										// by the built-in "email" rule
+										email: true
+									},
+									
+									// Specify validation error messages
+									messages: {
+										firstname: {
+											required: "Please enter your firstname",
+											minlength: "Your firstname must be at least 3 characters long"
+										},
+										lastname: "Please enter your lastname",
+										phone: "Please enter your phone number",							
+										email: "Please enter a valid email address"
+									},
+								// Make sure the form is submitted to the destination defined
+								// in the "action" attribute of the form when valid
+									submitHandler: function(form) {
+										form.submit();
+									}
+								}
+							}
+					$("form[name='profile-form']").validate(valrule);
+					$("#accept-chpwd").change(function(){
+						$(".chpwd-set").toggleClass("invisible");
+						if($(".chpwd-set").hasClass("invisible")){
+							
+						}else{
+							
 						}
 					});
 				});

@@ -1,0 +1,32 @@
+
+Create Database with name "register"
+then import the attached password_reset_temp.sql file
+
+OR You can also create using following query:
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `email` char(50) DEFAULT NULL,
+  `firstname` char(50) DEFAULT NULL,
+  `lastname` char(50) DEFAULT NULL,
+  `password` varchar(200) DEFAULT NULL,
+  `address` varchar(100) DEFAULT NULL,
+  `phone` varchar(100) DEFAULT NULL,
+  `join_date` date DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+Change some settings for SMTP in controllers / mail_configuration.php
+<?php
+define("PROJECT_HOME","http://127.0.0.1:8081/"); // PROJECT ROOT DIRECTORY(required)
+
+define("PORT", "587");
+define("MAIL_USERNAME", "your@gmail.com"); // YOUR GMAIL ADDRESS(requred)
+define("MAIL_PASSWORD", "password"); // GMAIL PASSWORD(required)
+
+define("MAIL_HOST", "smtp.gmail.com");
+define("MAILER", "smtp");
+
+define("SENDER_NAME", "Andrey");
+define("SERDER_EMAIL", "prokazasandrey@gmail.com");
+?>
