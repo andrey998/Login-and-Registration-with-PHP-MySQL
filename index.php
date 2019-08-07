@@ -57,7 +57,7 @@
 						<label class="icon-mobile-menu mobile-menu-icon-wrapper" for="mobile-menu-state"></label>
 						<input type="checkbox" id="mobile-menu-state" style="visibility: hidden" />
 						<div class="logo">
-							<a class="logo-link" href="index.html">
+							<a class="logo-link" href="index.php">
 								<img alt="Makaya" class="logo-img" src="content/images/logo-mark.png" />
 							</a>
 						</div>
