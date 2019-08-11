@@ -354,16 +354,12 @@ xsigin/signup popup
   cursor: auto;
   border-radius: 0.25em;
   -webkit-transform: translateY(-30px);
-  -moz-transform: translateY(-30px);
-  -ms-transform: translateY(-30px);
-  -o-transform: translateY(-30px);
-  transform: translateY(-30px);
-  -webkit-transition-property: -webkit-transform;
-  -moz-transition-property: -moz-transform;
-  transition-property: transform;
-  -webkit-transition-duration: 0.3s;
-  -moz-transition-duration: 0.3s;
-  transition-duration: 0.3s;
+      -ms-transform: translateY(-30px);
+          transform: translateY(-30px);
+  -webkit-transition: -webkit-transform 0.3s;
+  transition: -webkit-transform 0.3s;
+  transition: transform 0.3s;
+  transition: transform 0.3s, -webkit-transform 0.3s;
 }
 .cd-user-modal-container .cd-switcher:after {
   content: "";
@@ -392,6 +388,11 @@ xsigin/signup popup
 .cd-user-modal-container .cd-switcher a.selected {
   background: #FFF;
   color: #505260;
+}
+@media only screen and (max-width: 600px) {
+  .cd-user-modal {
+    width: 70%;
+  }
 }
 @media only screen and (min-width: 600px) {
   .cd-user-modal-container {

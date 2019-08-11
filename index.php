@@ -80,8 +80,13 @@
 										<?php endif; ?>
 									</li>
 									<li class="nav-links-item mobile-menu-help">
-										<input type="checkbox" id="js-mobile-help" style="visibility: hidden" />
-										<label class="js-mobile-help" for="js-mobile-help">HELP</label>
+										<li class="nav-links-item mobile-menu-help">
+										<input type="checkbox" id="js-mobile-help" style="visibility: hidden">
+																					<span class="js-menu-help">							
+												<a class="cd-signin" href="#0">LOG IN</a> / 
+												<a class="cd-signup" href="#0">SIGN UP</a>										
+											</span>	
+																				<!-- <label class="js-mobile-help" for="js-mobile-help">HELPx</label> -->
 										<ul class="nav-links list-unstyled">
 											<li class="nav-links-item">
 												<a href="how-it-works/index.html">
