@@ -572,10 +572,11 @@
 							<?php
 								if(isset($result_resetpwd)){
 									echo ("<script>
-											$('.cd-user-modal').find('#cd-signup').removeClass('is-selected');
-											$('.cd-user-modal').find('#cd-login').removeClass('is-selected');
-											$('.cd-user-modal').find('#cd-reset-password').addClass('is-selected');			
-											</script>");	
+										$('.cd-user-modal').addClass('is-visible');
+										$('.cd-user-modal').find('#cd-signup').removeClass('is-selected');
+										$('.cd-user-modal').find('#cd-login').removeClass('is-selected');
+										$('.cd-user-modal').find('#cd-reset-password').addClass('is-selected');			
+										</script>");	
 									echo ($result_resetpwd);
 								}
 							?>
@@ -832,7 +833,7 @@
 				</div>
 			</footer>			
 			<!-- <script src="scripts/js/jquery/jquery.min.js" type="text/javascript"></script> -->
-			<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.js"></script>
+			<script type="text/javascript" src="scripts/js/jquery/jquery.validate.min"></script>
 			<script type="text/javascript">
 				if (typeof applicationConfig == 'undefined') { var applicationConfig = {}; }
 				applicationConfig.requireHomeSlider = true;
